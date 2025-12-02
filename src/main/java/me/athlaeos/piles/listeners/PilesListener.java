@@ -2,9 +2,9 @@ package me.athlaeos.piles.listeners;
 
 import me.athlaeos.piles.PileRegistry;
 import me.athlaeos.piles.domain.Pile;
-import me.athlaeos.piles.piles.PileType;
 import me.athlaeos.piles.utils.Timer;
 import me.athlaeos.piles.utils.Utils;
+import org.bukkit.FluidCollisionMode;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -65,7 +65,7 @@ public class PilesListener implements Listener {
 
         boolean rightClick = event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK;
         Timer.setCooldown(event.getPlayer().getUniqueId(), 50, "delay_item_placement");
-        RayTraceResult result = player.getWorld().rayTraceEntities(eyeLocation, eyeLocation.getDirection(), 5, 0.3, PileRegistry::isPile);
+        RayTraceResult result = player.getWorld().rayTrace(eyeLocation, eyeLocation.getDirection(), 5, FluidCollisionMode.NEVER, false, 0.3, PileRegistry::isPile);
         float direction = get8WayDirection(eyeLocation);
 
         // interacting with existing pile entity

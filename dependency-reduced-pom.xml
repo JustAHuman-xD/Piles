@@ -4,7 +4,7 @@
   <groupId>me.athlaeos</groupId>
   <artifactId>piles</artifactId>
   <name>Piles</name>
-  <version>1.0</version>
+  <version>1.0.1</version>
   <build>
     <resources>
       <resource>

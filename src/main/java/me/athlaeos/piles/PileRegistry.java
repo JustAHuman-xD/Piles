@@ -159,7 +159,7 @@ public class PileRegistry {
     }
 
     private static boolean canPlace(@Nonnull Player player, ItemStack item, Block block, boolean newPile) {
-        if (!player.hasPermission("piles.place") || (newPile && !canPlacePiles(player)) || hasPlacementBlocked(player)) {
+        if (!player.hasPermission("piles.place") || hasPlacementBlocked(player) || (newPile && !canPlacePiles(player))) {
             return false;
         }
 
