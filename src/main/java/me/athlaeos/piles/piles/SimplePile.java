@@ -14,7 +14,8 @@ public class SimplePile extends PileType {
 
     @Override
     public boolean canPlace(Block b) {
-        return b.getType().isAir();
+        Material type = b.getType();
+        return type.isAir() || type == Material.WATER;
     }
 
     @Override
