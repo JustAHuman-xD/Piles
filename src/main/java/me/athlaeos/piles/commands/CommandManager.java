@@ -21,7 +21,7 @@ public class CommandManager implements TabExecutor {
 		commands.put("help", new HelpCommand());
 		commands.put("create", new CreatePileCommand());
 		commands.put("delete", new DeletePileCommand());
-		commands.put("toggle", new TogglePilePlacementCommand());
+		commands.put("toggle", new TogglePilesCommand());
 		commands.put("resourcepack", new ResourcePackCommand());
 	}
 

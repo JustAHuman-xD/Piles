@@ -42,7 +42,7 @@ public class PileRegistry {
     private static final NamespacedKey PILE_POSITION = new NamespacedKey(Piles.getInstance(), "pile_position");
     private static final NamespacedKey PILE_ITEMS = new NamespacedKey(Piles.getInstance(), "pile_items");
     private static final NamespacedKey PILE_OWNER = new NamespacedKey(Piles.getInstance(), "pile_owner");
-    private static final NamespacedKey PLACEMENT_BLOCKER = new NamespacedKey(Piles.getInstance(), "pile_placement_blocker");
+    private static final NamespacedKey PILES_TOGGLE_KEY = new NamespacedKey(Piles.getInstance(), "pile_placement_blocker");
     
     private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(PileType.class, new GsonAdapter<PileType>("MOD_TYPE"))
@@ -159,7 +159,7 @@ public class PileRegistry {
     }
 
     private static boolean canPlace(@Nonnull Player player, ItemStack item, Block block, boolean newPile) {
-        if (!player.hasPermission("piles.place") || hasPlacementBlocked(player) || (newPile && !canPlacePiles(player))) {
+        if (!player.hasPermission("piles.place") || hasPilesToggledOff(player) || (newPile && !canPlacePiles(player))) {
             return false;
         }
 
@@ -231,7 +231,11 @@ public class PileRegistry {
         return destroyPile(existingPile, destroyer);
     }
 
-    public static boolean canDestroy(@Nullable Player p, Pile pile){
+    public static boolean canDestroy(@Nullable Player p, Pile pile) {
+        if (hasPilesToggledOff(p)) {
+            Utils.sendMessage(p, Piles.getPluginConfig().getString("message_cannot_break_piles_disabled", ""));
+            return false;
+        }
         Block block = pile.getPosition().getBlock();
         if (block == null) {
             return false;
@@ -387,21 +391,21 @@ public class PileRegistry {
         String requirementString(ItemStack item);
     }
 
-    public static boolean hasPlacementBlocked(Player p){
-        return p.getPersistentDataContainer().has(PLACEMENT_BLOCKER, PersistentDataType.BYTE);
+    public static boolean hasPilesToggledOff(Player p){
+        return p.getPersistentDataContainer().has(PILES_TOGGLE_KEY, PersistentDataType.BYTE);
     }
 
     /**
-     * Toggles pile placement for the player.
-     * @param p the player to toggle pile placement for
-     * @return true if the player is now able to place piles, false if not
+     * Toggles piles for the player.
+     * @param p the player to toggle piles for
+     * @return true if the player is now able to place/break piles, false if not
      */
-    public static boolean togglePlacementBlocked(Player p){
-        if (p.getPersistentDataContainer().has(PLACEMENT_BLOCKER, PersistentDataType.BYTE)) {
-            p.getPersistentDataContainer().remove(PLACEMENT_BLOCKER);
+    public static boolean togglePiles(Player p){
+        if (p.getPersistentDataContainer().has(PILES_TOGGLE_KEY, PersistentDataType.BYTE)) {
+            p.getPersistentDataContainer().remove(PILES_TOGGLE_KEY);
             return true;
         } else {
-            p.getPersistentDataContainer().set(PLACEMENT_BLOCKER, PersistentDataType.BYTE, (byte) 0);
+            p.getPersistentDataContainer().set(PILES_TOGGLE_KEY, PersistentDataType.BYTE, (byte) 0);
             return false;
         }
     }

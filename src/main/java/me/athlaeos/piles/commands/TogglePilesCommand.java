@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class TogglePilePlacementCommand implements Command{
+public class TogglePilesCommand implements Command{
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player p)){
@@ -16,10 +16,10 @@ public class TogglePilePlacementCommand implements Command{
             return true;
         }
 
-        if (PileRegistry.togglePlacementBlocked(p)) {
-            Utils.sendMessage(p, Piles.getPluginConfig().getString("message_pile_placement_enabled", ""));
+        if (PileRegistry.togglePiles(p)) {
+            Utils.sendMessage(p, Piles.getPluginConfig().getString("message_piles_enabled", ""));
         } else {
-            Utils.sendMessage(p, Piles.getPluginConfig().getString("message_pile_placement_disabled", ""));
+            Utils.sendMessage(p, Piles.getPluginConfig().getString("message_piles_disabled", ""));
         }
         return true;
     }

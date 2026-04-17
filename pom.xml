@@ -7,7 +7,7 @@
     <name>Piles</name>
     <groupId>me.athlaeos</groupId>
     <artifactId>piles</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
 
     <properties>
